@@ -10,7 +10,7 @@ export const fetchUsers = async () => {
         .order('created_at', { ascending: false });
 
     return data;
-}
+};
 
 export const fetchProviders = async () => {
     const supabase = createServerComponentClient({ cookies });
@@ -21,7 +21,7 @@ export const fetchProviders = async () => {
         .order('created_at', { ascending: false });
 
     return data;
-}
+};
 
 export const deleteUserById = async (id: number) => {
     const supabase = createServerComponentClient({ cookies });
@@ -30,7 +30,7 @@ export const deleteUserById = async (id: number) => {
         .from('users')
         .delete()
         .eq('id', id);
-}
+};
 
 export const checkIfEmailIsValid = async (email: string) => {
     const supabase = createServerComponentClient({cookies});
@@ -42,4 +42,4 @@ export const checkIfEmailIsValid = async (email: string) => {
 
         console.log('got data: ', data)
     return !data?.length;
-}
+};

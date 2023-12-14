@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Form from '@/app/components/form';
 import Table from '@/app/components/table';
 import { fetchProviders } from './lib/data';
