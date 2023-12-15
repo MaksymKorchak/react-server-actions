@@ -1,4 +1,5 @@
 "use server"
+
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache'
@@ -41,18 +42,14 @@ export const createInvoice = async (formData: FormData) => {
     }
   }
 
-  console.log('submit tweet');
   revalidatePath('/')
-
-  console.log('validatedFields: ', validatedFields)
 }
 
 export const deleteUser = async (id: number) => {
-  console.log('id to delete: ', id)
   try {
     await deleteUserById(id);
   } catch(e) {
-    console.log('failed to delete record')
+    console.log('Failed to delete record')
   }
   
   revalidatePath('/')

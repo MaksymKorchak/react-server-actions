@@ -1,10 +1,10 @@
-import Image from 'next/image';
 import { DeleteRecord } from '@/app/components/deleteRecord';
 import InvoiceStatus from '@/app/components/status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchUsers } from '@/app/lib/data';
 
 export default async function Table() {
+  
   const users = await fetchUsers();
 
   return (
@@ -42,7 +42,7 @@ export default async function Table() {
               {users?.map((user) => (
                 <tr
                   key={user.id}
-                  className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
+                  className="w-full border-b py-3 text-sm"
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">

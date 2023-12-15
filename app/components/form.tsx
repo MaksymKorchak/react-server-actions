@@ -1,4 +1,5 @@
 'use client';
+
 import Link from 'next/link';
 import { useFormState } from 'react-dom';
 import {
@@ -14,9 +15,16 @@ import { createInvoice } from '@/app/lib/actions';
 import { SignInSchema } from '../lib/schema-client';
 import { useRef } from 'react';
 
-export default function Form({ providers }) {
+interface Provider {
+    id: number;
+    title: string;
+}
+
+export default function Form({ providers }: { providers: Provider[] }) {
+
     const initialState = { message: null, errors: {} };
     const ref = useRef<HTMLFormElement>(null);
+
     const clientAction = async (prevState, formData: FormData) => {
         const newForm = {
             amount: formData.get('amount'),
@@ -33,17 +41,21 @@ export default function Form({ providers }) {
                 errors: result.error.flatten().fieldErrors,
                 message: 'Missing Fields. Failed to Create Invoice.',
             };
-        }
+        };
 
         const serverResult = await createInvoice(formData);
 
-        console.log('serverResult: ', serverResult);
-        ref.current?.reset();
+        if(!serverResult?.errors?.email){
+            resetForm();
+        }
         return serverResult;
-    }
+    };
+
+    const resetForm = () => {
+        ref.current?.reset();
+    };
 
     const [state, dispatch] = useFormState(clientAction, initialState);
-    console.log('state1', state);
 
     return (
         <form action={dispatch} ref={ref}>
@@ -115,7 +127,7 @@ export default function Form({ providers }) {
                             <option value="" disabled>
                                 Select a provider
                             </option>
-                            {providers.map((provider) => (
+                            {providers?.map((provider) => (
                                 <option key={provider.id} value={provider.id}>
                                     {provider.title}
                                 </option>
@@ -211,7 +223,8 @@ export default function Form({ providers }) {
             </div>
             <div className="mt-6 flex justify-end gap-4">
                 <Link
-                    href="/"
+                    onClick={resetForm}
+                    href="#"
                     className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
                 >
                     Cancel
